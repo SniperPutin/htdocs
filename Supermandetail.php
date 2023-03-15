@@ -1,32 +1,14 @@
+<?php
+    $value = $_REQUEST["v"];
+    $datafile = fopen("SuperHTML.csv", "r");
+    $data = array();
+    while (!feof($datafile)){
+       $data[] = fgetcsv($datafile); 
+    }
+    //create variable extra styles and store all styles in here. then print extra styles in the top. 
+    include('top.php');
+?>
 
-    <!DOCTYPE html>
-    <html>
-
-            <head>
-                <style>
-                    div.SuperBody{ background-color: rgb(51, 51, 253); font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;}
-                    dt{color: rgb(243, 227, 7); background-color: rgb(255, 0, 0);}
-                    div.SuperHeader{font-size: 4.5rem; color: rgb(245, 6, 6); text-align: center; font-weight: bold;}
-                    
-                    * {box-sizing: border-box; flex-direction: row;}
-                    header{ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 3.0rem; background-color: rgb(255, 38, 0); color: rgb(0, 0, 0); outline:auto; text-align: center;}
-                    body{background-color: rgba(39, 44, 48, 0.87); max-width: 800px;}
-                    div.style1 {display: flex;}
-                    .style1 nav{ color: black; outline: auto; background-color: aqua; padding:  .5rem; min-width: 200px; }
-                    .style1 div{ flex: 3; background-color: rgb(51, 51, 253); }
-                    div.style2 {background-color: blueviolet; flex: 1} 
-                    h1.style1{font-size: large;}
-                    footer{position: fixed;
-                        padding: 0px 0px 30px 0px;
-                        bottom: 0;
-                        width: 95%;
-                        /* Height of the footer*/
-                        height: 40px;
-                        background: rgb(248, 8, 176);
-                        text-align: center;}
-                </style>
-            </head>
-            
             <body class ="style1">
                 <header>
                     Super Heros Wiki 
@@ -38,38 +20,38 @@
     
                 </nav>
                 <div class="SuperHeader">
-                        Superman 
+                        <?= $data[$value][0] ?>
                 </div>
 
             <div class="style1">
                     
                 <div class="SuperBody">    
-                    <img src="526563.jpg" style="width: 570px;">
+                    <img src=<?= $data[$value][4] ?> style="width: 570px;">
             <dl>
                 <dt>
                     Alias/Name
                 </dt>
                 <dd>
-                    Superman/Kent Clark
+                <?= $data[$value][0] ?>
                 </dd>
                 <dt>
                     About
                 </dt>  
                     
                 <dd>
-                  Being an alien from Krypton whose parents sent him to earth due Krypton's destruction. Superman gets adopted as a baby by the Clarks. As an adult, superman juggles his normal job as a reporter and his superhero job as a defender of earth from evils that lerk beyond. 
+                <?= $data[$value][1] ?>
                 </dd>
                 <dt>
                     Creator/Writer
                 </dt>
                 <dd>
-                    Jerry Siegel
+                <?= $data[$value][3] ?>
                 </dd>
                 <dt>
                     Debut
                 </dt>
                 <dd>
-                    June 1938
+                    <?= $data[$value][2] ?>
                 </dd>
             </dl> 
             <a href="CaptainAmerica.html">Captain America</a>
@@ -83,6 +65,7 @@
             <br>
             <br>
             </div>
+
     
     
                     <div class="style2">
@@ -93,6 +76,21 @@
                 <footer>
                     This Site references Britannica for its information about Superheros, check the About for more information, This site has been written by David Groom 2/22/2023
                 </footer>
+                <?php
+                if ($value > 1) 
+                {
+                    //we have a previous page
+                    $prev = $value - 1;
+                    echo "<a href=\"/Supermandetail.php?v=$prev\">&lt;&lt; Previous</a>";
+                }
+                echo " | ";
+                if($value < 15)
+                {
+                    //we haven't reached the end of the set
+                    $next = $value + 1;
+                    echo "<a href=\"/Supermandetail.php?v=$next\">Next</a>";
+                }
+                ?>
             </body>
     
     </html>
